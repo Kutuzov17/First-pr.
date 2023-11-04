@@ -1,0 +1,18 @@
+divider="======//////======//////======//////======"
+initial_directory=$(pwd)
+
+for i in "" {1..10}; do
+  folder="/root/testnet${i}/config"
+  if [ -d "$folder" ]; then
+    folder_name="testnet$i"
+    echo "***************$folder_name***************"
+    cd "$folder" && cat wallet.json
+    echo "Node Proof of Ownership for ***************$folder_name***************:"
+    
+    # Вход в папку и выполнение команды
+    (cd "/root/$folder_name" && docker exec "${folder_name}_node_1" taraxa-sign sign --wallet /opt/taraxa_data/conf/wallet.json)
+    
+    echo "$divider"
+    cd "$initial_directory"
+  fi
+done
